@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
-import spacy
+#import spacy
 import pdfplumber
 from docx import Document
 import re
-from sentence_transformers import SentenceTransformer, util
+#from sentence_transformers import SentenceTransformer, util
 import numpy as np
 import nltk
 from nltk.corpus import stopwords
@@ -217,6 +217,12 @@ def calculate_ats_score(resume_path, jd_path):
 @app.route('/api/score', methods=['POST'])
 def ats_score():
     try:
+        import spacy
+        from sentence_transformers import SentenceTransformer
+
+        nlp = spacy.load("en_core_web_sm")
+        model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+        
         logger.info("Received ATS score request")
         logger.info(f"Request headers: {request.headers}")
         logger.info(f"Request form data: {request.form}")
